@@ -1,0 +1,74 @@
+{
+    "product":[
+        {
+            "id": 1,
+            "name": "Americano",
+            "image": "/src/assets/image/americano.jpg",
+            "price": 15000,
+            "category": "Coffe"
+        },
+        {
+            "id": 2,
+            "name": "Cappucino",
+            "image": "/src/assets/image/cappucino.jpg",
+            "price": 20000,
+            "category": "Coffe"
+        },
+        {
+            "id": 3,
+            "name": "Kopi Susu",
+            "image": "/src/assets/image/kopsu.jpg",
+            "price": 15000,
+            "category": "Coffe"
+        },
+        {
+            "id": 4,
+            "name": "V-60",
+            "image": "/src/assets/image/v-60.jpg",
+            "price": 25000,
+            "category": "Coffe"
+        },
+        {
+            "id": 5,
+            "name": "Teh Tarik",
+            "image": "/src/assets/image/teh tarik.jpg",
+            "price": 10000,
+            "category": "Non Coffe"
+        },
+        {
+            "id": 6,
+            "name": "Teh Manis",
+            "image": "/src/assets/image/teh manis.jpg",
+            "price": 5000,
+            "category": "Non Coffe"
+        },
+        {
+            "id": 7,
+            "name": "Matcha",
+            "image": "/src/assets/image/matcha.jpg",
+            "price": 20000,
+            "category": "Non Coffe"
+        },
+        {
+            "id": 8,
+            "name": "Lemom Tea",
+            "image": "/src/assets/image/lemon tea.jpg",
+            "price": 15000,
+            "category": "Non Coffe"
+        },
+        {
+            "id": 9,
+            "name": "Croissant",
+            "image": "/src/assets/image/Croissant.jpg",
+            "price": 30000,
+            "category": "Makanan"
+        },
+        {
+            "id": 10,
+            "name": "Brownies",
+            "image": "/src/assets/image/Brownies.jpg",
+            "price": 25000,
+            "category": "Makanan"
+        }
+    ]
+}
