@@ -1,24 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Cart from "../components/Cart";
 import Checkout from "../components/Checkout";
 import Footer from "../layouts/Footer";
 import Header from "../layouts/Header";
-import SideBar from "../layouts/Sidebar";
-
+import SideBar from "../layouts/SideBar";
+import axios from "axios";
 export default function Home() {
   const [sideBar, setSideBar] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  const [dummyProducts] = useState([
-    { id: 1, name: "Produk A", price: 20000, category: "food" },
-    { id: 2, name: "Produk B", price: 15000, category: "beverage" },
-    { id: 3, name: "Produk C", price: 12000, category: "food" },
-    { id: 4, name: "Produk D", price: 18000, category: "beverage" },
-    { id: 5, name: "Produk E", price: 25000, category: "food" },
-    { id: 6, name: "Produk F", price: 14000, category: "beverage" },
-  ]);
+  const [product, setProduct] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
 
   const totalHarga = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+  const getProduct = () => {
+    axios
+      .get("http://localhost:3000/product")
+      .then((ress) => setProduct(ress.data))
+      .catch((err) => {
+        alert(err);
+        console.log(err);
+      });
+  };
 
   const handleAddToCart = (product) => {
     const existingItem = cartItems.find((item) => item.id === product.id);
@@ -54,8 +57,11 @@ export default function Home() {
     setSelectedCategory(category);
   };
 
-  const filteredProducts = selectedCategory === "all" ? dummyProducts : dummyProducts.filter((product) => product.category === selectedCategory);
+  // const filteredProducts = selectedCategory === "all" ? dummyProducts : dummyProducts.filter((product) => product.category === selectedCategory);
 
+  useEffect(() => {
+    getProduct();
+  });
   return (
     <>
       <Header>{sideBar ? <i className="	fa fa-close text-xl" onClick={() => setSideBar(false)}></i> : <i className="fa fa-bars text-xl" onClick={() => setSideBar(true)}></i>}</Header>
@@ -80,7 +86,7 @@ export default function Home() {
                 </button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 mt-4">
-                {filteredProducts.map((product) => (
+                {product.map((product) => (
                   <div key={product.id} className={`bg-white p-4 rounded-lg shadow ${cartItems.length === 0 ? "w-full" : ""}`}>
                     <p className="font-semibold">{product.name}</p>
                     <p className="text-gray-600">Rp {product.price.toLocaleString()}</p>
