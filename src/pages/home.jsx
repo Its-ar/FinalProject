@@ -76,9 +76,8 @@ export default function Home() {
       <Header>{sideBar ? <i className="fa fa-close text-xl" onClick={() => setSideBar(false)}></i> : <i className="fa fa-bars text-xl" onClick={() => setSideBar(true)}></i>}</Header>
       <div className="flex gap-3">
         {sideBar ? <SideBar /> : null}
-        <div className="container mx-auto p-8 bg-gray-100 min-h-screen">
+        <div className="top-0 container mx-auto p-8 bg-gray-100 min-h-screen">
           <h1 className="text-2xl font-bold mb-4 text-center">Cashier Point Of Sales</h1>
-
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-2/3 mr-4 flex-1 bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-xl font-semibold mb-2">Order Produk</h2>
@@ -99,12 +98,12 @@ export default function Home() {
                   .filter((product) => selectedCategory === "all" || product.category === selectedCategory)
                   .map((product) => (
                     <div key={product.id} className={`bg-white p-4 rounded-lg shadow ${cartItems.length === 0 ? "w-full" : ""}`}>
-                      <div className="flex items-center justify-center bg-gray-100 rounded-xl px-4 py-4 ">
-                        <img className="h-64 w-auto object-cover cursor-pointer hover:scale-110 transition-transform duration-500 ease-in-out" src={product.image} alt="Card Image" />
+                      <div className="flex items-center justify-center bg-gray-100 rounded-xl px-2 py-2">
+                        <img className="h-auto w-auto object-cover cursor-pointer hover:scale-110 transition-transform duration-500 ease-in-out" src={product.image} alt="Card Image" />
                       </div>
                       <p className="font-semibold">{product.name}</p>
                       <p className="text-gray-600">Rp {product.price.toLocaleString()}</p>
-                      <button className="bg-blue-500 text-white px-2 py-1 rounded mt-2" onClick={() => handleAddToCart(product)}>
+                      <button className="bg-blue-500 text-white px-2 py-1 rounded-md mt-2" onClick={() => handleAddToCart(product)}>
                         Add to Cart
                       </button>
                     </div>
