@@ -10,35 +10,21 @@ const Cart = ({ cartItems, onIncrement, onDecrement, onDelete }) => {
             <p className="font-semibold">{item.name}</p>
             <p className="text-gray-600">Rp {item.price.toLocaleString()}</p>
             <div className="flex mt-2">
-              <button
-                className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
-                onClick={() => onDecrement(index)}
-              >
+              <button className="bg-blue-500 text-white px-2 py-1 rounded mr-2" onClick={() => onDecrement(index)}>
                 -
               </button>
               <span>{item.quantity}</span>
-              <button
-                className="bg-blue-500 text-white px-2 py-1 rounded ml-2"
-                onClick={() => onIncrement(index)}
-              >
+              <button className="bg-blue-500 text-white px-2 py-1 rounded ml-2" onClick={() => onIncrement(index)}>
                 +
               </button>
-              <button
-                className="bg-red-500 text-white px-2 py-1 rounded ml-auto"
-                onClick={() => onDelete(index)}
-              >
+              <button className="bg-red-500 text-white px-2 py-1 rounded ml-auto" onClick={() => onDelete(index)}>
                 Delete
               </button>
             </div>
           </div>
         ))}
         <hr className="my-2" />
-        <p className="font-semibold">
-          Total: Rp{" "}
-          {cartItems
-            .reduce((total, item) => total + item.price * item.quantity, 0)
-            .toLocaleString()}
-        </p>
+        <p className="font-semibold">Total: Rp {cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toLocaleString()}</p>
       </div>
     </div>
   );

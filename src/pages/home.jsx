@@ -5,6 +5,7 @@ import Footer from "../layouts/Footer";
 import Header from "../layouts/Header";
 import SideBar from "../layouts/SideBar";
 import axios from "axios";
+
 export default function Home() {
   const [sideBar, setSideBar] = useState(false);
   const [cartItems, setCartItems] = useState([]);
@@ -57,14 +58,17 @@ export default function Home() {
     setSelectedCategory(category);
   };
 
-  // const filteredProducts = selectedCategory === "all" ? dummyProducts : dummyProducts.filter((product) => product.category === selectedCategory);
+  const resetCart = () => {
+    setCartItems([]); // Reset the cartItems state to an empty array
+  };
 
   useEffect(() => {
     getProduct();
-  });
+  }, []);
+
   return (
     <>
-      <Header>{sideBar ? <i className="	fa fa-close text-xl" onClick={() => setSideBar(false)}></i> : <i className="fa fa-bars text-xl" onClick={() => setSideBar(true)}></i>}</Header>
+      <Header>{sideBar ? <i className="fa fa-close text-xl" onClick={() => setSideBar(false)}></i> : <i className="fa fa-bars text-xl" onClick={() => setSideBar(true)}></i>}</Header>
       <div className="flex gap-3">
         {sideBar ? <SideBar /> : null}
         <div className="container mx-auto p-8 bg-gray-100 min-h-screen">
@@ -78,30 +82,35 @@ export default function Home() {
                 <button className={`mr-4 ${selectedCategory === "all" ? "font-bold" : ""}`} onClick={() => handleCategoryClick("all")}>
                   All
                 </button>
-                <button className={`mr-4 ${selectedCategory === "food" ? "font-bold" : ""}`} onClick={() => handleCategoryClick("food")}>
-                  Food
-                </button>
-                <button className={`mr-4 ${selectedCategory === "beverage" ? "font-bold" : ""}`} onClick={() => handleCategoryClick("beverage")}>
-                  Beverage
-                </button>
+                {product.length > 0 &&
+                  [...new Set(product.map((item) => item.category))].map((category) => (
+                    <button key={category} className={`mr-4 ${selectedCategory === category ? "font-bold" : ""}`} onClick={() => handleCategoryClick(category)}>
+                      {category}
+                    </button>
+                  ))}
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 mt-4">
-                {product.map((product) => (
-                  <div key={product.id} className={`bg-white p-4 rounded-lg shadow ${cartItems.length === 0 ? "w-full" : ""}`}>
-                    <p className="font-semibold">{product.name}</p>
-                    <p className="text-gray-600">Rp {product.price.toLocaleString()}</p>
-                    <button className="bg-blue-500 text-white px-2 py-1 rounded mt-2" onClick={() => handleAddToCart(product)}>
-                      Add to Cart
-                    </button>
-                  </div>
-                ))}
+                {product
+                  .filter((product) => selectedCategory === "all" || product.category === selectedCategory)
+                  .map((product) => (
+                    <div key={product.id} className={`bg-white p-4 rounded-lg shadow ${cartItems.length === 0 ? "w-full" : ""}`}>
+                      <div className="flex items-center justify-center bg-gray-100 rounded-xl px-4 py-4 ">
+                        <img className="h-64 w-auto object-cover cursor-pointer hover:scale-110 transition-transform duration-500 ease-in-out" src={product.image} alt="Card Image" />
+                      </div>
+                      <p className="font-semibold">{product.name}</p>
+                      <p className="text-gray-600">Rp {product.price.toLocaleString()}</p>
+                      <button className="bg-blue-500 text-white px-2 py-1 rounded mt-2" onClick={() => handleAddToCart(product)}>
+                        Add to Cart
+                      </button>
+                    </div>
+                  ))}
               </div>
             </div>
 
             {cartItems.length > 0 && (
               <div className="w-full md:w-1/3 mt-4 md:mt-0 flex flex-col bg-white p-6 rounded-lg shadow-md">
                 <Cart cartItems={cartItems} onIncrement={handleIncrement} onDecrement={handleDecrement} onDelete={handleDelete} />
-                <Checkout totalHarga={totalHarga} />
+                <Checkout totalHarga={totalHarga} cartItems={cartItems} resetCart={resetCart} />
               </div>
             )}
           </div>
