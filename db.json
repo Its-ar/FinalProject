@@ -231,6 +231,54 @@
         }
       ],
       "id": 5
+    },
+    {
+      "date": "2023-09-11T10:38:54.674Z",
+      "totalHarga": 60000,
+      "kembalian": 0,
+      "products": [
+        {
+          "id": 3,
+          "name": "Kopi Susu",
+          "image": "./image/kopsu.jpg",
+          "price": 15000,
+          "category": "Coffe",
+          "quantity": 4
+        }
+      ],
+      "id": 6
+    },
+    {
+      "date": "2023-09-11T10:39:19.259Z",
+      "totalHarga": 45000,
+      "kembalian": 500,
+      "products": [
+        {
+          "id": 3,
+          "name": "Kopi Susu",
+          "image": "./image/kopsu.jpg",
+          "price": 15000,
+          "category": "Coffe",
+          "quantity": 3
+        }
+      ],
+      "id": 7
+    },
+    {
+      "date": "2023-09-11T10:42:50.491Z",
+      "totalHarga": 50000,
+      "kembalian": 5000,
+      "products": [
+        {
+          "id": 6,
+          "name": "Teh Manis",
+          "image": "./image/teh manis.jpg",
+          "price": 5000,
+          "category": "Non Coffe",
+          "quantity": 10
+        }
+      ],
+      "id": 8
     }
   ]
 }

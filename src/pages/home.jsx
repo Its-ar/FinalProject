@@ -5,12 +5,15 @@ import Footer from "../layouts/Footer";
 import Header from "../layouts/Header";
 import SideBar from "../layouts/SideBar";
 import axios from "axios";
+import { tambahProduct } from "../Store/ProductSlice";
+import { useDispatch } from "react-redux";
 
 export default function Home() {
   const [sideBar, setSideBar] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [product, setProduct] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const dispatch = useDispatch();
 
   const totalHarga = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
@@ -28,11 +31,13 @@ export default function Home() {
     const existingItem = cartItems.find((item) => item.id === product.id);
 
     if (existingItem) {
+      // dispatch(tambahProduct({ ...product, quantity: existingItem.quantity + 1 }));
       const updatedCart = cartItems.map((item) => (item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item));
       setCartItems(updatedCart);
     } else {
       setCartItems([...cartItems, { ...product, quantity: 1 }]);
     }
+    dispatch(tambahProduct(product));
   };
 
   const handleIncrement = (index) => {
