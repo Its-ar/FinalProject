@@ -51,8 +51,8 @@
     },
     {
       "id": 8,
-      "name": "Lemom Tea",
-      "image": "./image/lemon tea.jpg",
+      "name": "Lemon Tea",
+      "image": {},
       "price": 15000,
       "category": "Non Coffe"
     },
@@ -87,9 +87,91 @@
     {
       "category": "Makanan",
       "price": 3000,
-      "name": "onde onde",
+      "name": "Onde Onde",
       "image": {},
       "id": 13
+    }
+  ],
+  "transactions": [
+    {
+      "date": "2023-09-11T04:40:29.535Z",
+      "totalHarga": 90000,
+      "kembalian": 1000,
+      "products": [
+        {
+          "id": 6,
+          "name": "Teh Manis",
+          "image": "./image/teh manis.jpg",
+          "price": 5000,
+          "category": "Non Coffe",
+          "quantity": 1
+        },
+        {
+          "id": 8,
+          "name": "Lemon Tea",
+          "image": {},
+          "price": 15000,
+          "category": "Non Coffe",
+          "quantity": 2
+        },
+        {
+          "id": 9,
+          "name": "Croissant",
+          "image": "./image/Croissant.jpg",
+          "price": 30000,
+          "category": "Makanan",
+          "quantity": 1
+        },
+        {
+          "id": 10,
+          "name": "Brownies",
+          "image": "./image/Brownies.jpg",
+          "price": 25000,
+          "category": "Makanan",
+          "quantity": 1
+        }
+      ],
+      "id": 1
+    },
+    {
+      "date": "2023-09-11T04:46:58.769Z",
+      "totalHarga": 29000,
+      "kembalian": 18100,
+      "products": [
+        {
+          "id": 1,
+          "name": "Americano",
+          "image": "./image/americano.jpg",
+          "price": 15000,
+          "category": "Coffe",
+          "quantity": 1
+        },
+        {
+          "id": 6,
+          "name": "Teh Manis",
+          "image": "./image/teh manis.jpg",
+          "price": 5000,
+          "category": "Non Coffe",
+          "quantity": 1
+        },
+        {
+          "category": "Makanan",
+          "price": 3000,
+          "name": "Kusus",
+          "image": {},
+          "id": 11,
+          "quantity": 1
+        },
+        {
+          "category": "Minuman",
+          "price": 6000,
+          "name": "Teh Susu",
+          "image": {},
+          "id": 12,
+          "quantity": 1
+        }
+      ],
+      "id": 2
     }
   ]
 }

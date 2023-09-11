@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import axios from "axios";
 
-const Checkout = ({ totalHarga }) => {
+// ... other imports and component code ...
+
+const Checkout = ({ totalHarga, cartItems, resetCart }) => {
   const [amountPaid, setAmountPaid] = useState("");
   const [kembalian, setKembalian] = useState(0);
 
@@ -20,7 +23,34 @@ const Checkout = ({ totalHarga }) => {
   };
 
   const handleBayarClick = () => {
-    // ...
+    const transactionData = {
+      date: new Date().toISOString(),
+      totalHarga,
+      kembalian,
+      products: cartItems,
+    };
+
+    // Kirim permintaan POST untuk menyimpan data transaksi
+    axios
+      .post("http://localhost:3000/transactions", transactionData)
+      .then((response) => {
+        // Handle respon berhasil di sini, jika diperlukan
+        console.log("Transaksi berhasil disimpan:", response.data);
+
+        // Setel ulang data keranjang dan checkout
+        setAmountPaid("");
+        setKembalian(0);
+
+        // Reset keranjang (cart)
+        resetCart();
+      })
+      .catch((error) => {
+        // Tangani error di sini
+        console.error("Error saat menyimpan transaksi:", error);
+      });
+
+    // Tampilkan peringatan ketika transaksi berhasil
+    alert("Transaksi berhasil! Terima kasih atas pembeliannya.");
   };
 
   return (
@@ -55,9 +85,23 @@ const Checkout = ({ totalHarga }) => {
             Kembalian: Rp {kembalian.toLocaleString()}
           </p>
         </div>
+
+        {/* Conditional check for cartItems */}
+        {cartItems && cartItems.length > 0 && (
+          <div className="mb-4">
+            <h3 className="text-lg font-semibold mb-2">Items in Cart</h3>
+            {cartItems.map((item, index) => (
+              <div key={index} className="mb-2">
+                <p className="font-semibold">{item.name}</p>
+                <p className="text-gray-600">Quantity: {item.quantity}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
-          onClick={handleBayarClick}
+          onClick={handleBayarClick} // Pastikan tombol 'bayar' memanggil handleBayarClick
         >
           Bayar
         </button>

@@ -27,7 +27,6 @@ export default function productsPage() {
         {sideBar ? <SideBar /> : null}
         <ProductsCrud />
       </div>
-      <Footer />
     </>
   );
 }
