@@ -59,21 +59,21 @@ const AddProduct = ({ setIsFormOpen, id, getProducts, setProductIds }) => {
           <div className="mb-4">
             <label className="block font-bold mb-1">Name</label>
             {errors.name?.message}
-            <input type="text" id="name" {...register("name")} className="w-full border border-gray-300 p-2 rounded" />
+            <input type="text" id="name" {...register("name")} className="w-full border border-gray-300 p-2 rounded" placeholder="Masukkan Nama Product" />
           </div>
           <div className="mb-4">
             <label className="block font-bold mb-1">Price</label>
             {errors.price?.message}
-            <input type="text" id="price" {...register("price")} className="w-full border border-gray-300 p-2 rounded" />
+            <input type="text" id="price" {...register("price")} className="w-full border border-gray-300 p-2 rounded" placeholder="Masukkan Harga Product" />
           </div>
           <div className="mb-4">
             <label className="block font-bold mb-1">Catagory</label>
             {errors.category?.message}
-            <input type="text" id="category" {...register("category")} className="w-full border border-gray-300 p-2 rounded" />
+            <input type="text" id="category" {...register("category")} className="w-full border border-gray-300 p-2 rounded" placeholder="Masukkan Category Product" />
           </div>
           <div className="mb-4">
             <label className="block font-bold mb-1">Image</label>
-            <input accept="image/*" type="file" className="w-full border border-gray-300 p-2 rounded" {...register("image")} />
+            <input type="text" id="image" className="w-full border border-gray-300 p-2 rounded" {...register("image")} placeholder="Masukkan Link Gambar Product" />
           </div>
           <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Submit
