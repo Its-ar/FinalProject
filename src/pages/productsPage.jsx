@@ -13,7 +13,7 @@ export default function productsPage() {
       <Header>
         {sideBar ? (
           <i
-            className="	fa fa-close text-xl"
+            className="fa fa-close text-xl"
             onClick={() => setSideBar(false)}
           ></i>
         ) : (

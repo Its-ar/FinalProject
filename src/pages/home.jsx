@@ -31,8 +31,9 @@ export default function Home() {
     const existingItem = cartItems.find((item) => item.id === product.id);
 
     if (existingItem) {
-      // dispatch(tambahProduct({ ...product, quantity: existingItem.quantity + 1 }));
-      const updatedCart = cartItems.map((item) => (item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item));
+      const updatedCart = cartItems.map((item) =>
+        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+      );
       setCartItems(updatedCart);
     } else {
       setCartItems([...cartItems, { ...product, quantity: 1 }]);
@@ -64,7 +65,7 @@ export default function Home() {
   };
 
   const resetCart = () => {
-    setCartItems([]); // Reset the cartItems state to an empty array
+    setCartItems([]);
   };
 
   useEffect(() => {
@@ -73,8 +74,14 @@ export default function Home() {
 
   return (
     <>
-      <Header>{sideBar ? <i className="fa fa-close text-xl" onClick={() => setSideBar(false)}></i> : <i className="fa fa-bars text-xl" onClick={() => setSideBar(true)}></i>}</Header>
-      <div className="flex gap-3">
+      <Header>
+        {sideBar ? (
+          <i className="fa fa-close text-xl" onClick={() => setSideBar(false)}></i>
+        ) : (
+          <i className="fa fa-bars text-xl" onClick={() => setSideBar(true)}></i>
+        )}
+      </Header>
+      <div className="flex flex-col md:flex-row gap-3">
         {sideBar ? <SideBar /> : null}
         <div className="container mx-auto p-8 bg-gray-100 min-h-screen">
           <h1 className="text-2xl font-bold mb-4 text-center">Cashier Point Of Sales</h1>
@@ -84,12 +91,19 @@ export default function Home() {
               <h2 className="text-xl font-semibold mb-2">Order Produk</h2>
               <hr />
               <div>
-                <button className={`mr-4 ${selectedCategory === "all" ? "font-bold" : ""}`} onClick={() => handleCategoryClick("all")}>
+                <button
+                  className={`mr-4 ${selectedCategory === "all" ? "font-bold" : ""}`}
+                  onClick={() => handleCategoryClick("all")}
+                >
                   All
                 </button>
                 {product.length > 0 &&
                   [...new Set(product.map((item) => item.category))].map((category) => (
-                    <button key={category} className={`mr-4 ${selectedCategory === category ? "font-bold" : ""}`} onClick={() => handleCategoryClick(category)}>
+                    <button
+                      key={category}
+                      className={`mr-4 ${selectedCategory === category ? "font-bold" : ""}`}
+                      onClick={() => handleCategoryClick(category)}
+                    >
                       {category}
                     </button>
                   ))}
@@ -98,13 +112,26 @@ export default function Home() {
                 {product
                   .filter((product) => selectedCategory === "all" || product.category === selectedCategory)
                   .map((product) => (
-                    <div key={product.id} className={`bg-white p-4 rounded-lg shadow ${cartItems.length === 0 ? "w-full" : ""}`}>
+                    <div
+                      key={product.id}
+                      className={`bg-white p-4 rounded-lg shadow ${
+                        cartItems.length === 0 ? "w-full" : ""
+                      }`}
+                    >
+                      {/* Perubahan ukuran gambar ketika responsive */}
                       <div className="flex items-center justify-center bg-gray-100 rounded-xl px-4 py-4 ">
-                        <img className="h-64 w-auto object-cover cursor-pointer hover:scale-110 transition-transform duration-500 ease-in-out" src={product.image} alt="Card Image" />
+                        <img
+                          className="h-64:20 w-fit max-w-full object-cover cursor-pointer hover:scale-110 transition-transform duration-500 ease-in-out"
+                          src={product.image}
+                          alt="Card Image"
+                        />
                       </div>
                       <p className="font-semibold">{product.name}</p>
                       <p className="text-gray-600">Rp {product.price.toLocaleString()}</p>
-                      <button className="bg-blue-500 text-white px-2 py-1 rounded mt-2" onClick={() => handleAddToCart(product)}>
+                      <button
+                        className="bg-blue-500 text-white px-2 py-1 rounded mt-2"
+                        onClick={() => handleAddToCart(product)}
+                      >
                         Add to Cart
                       </button>
                     </div>
