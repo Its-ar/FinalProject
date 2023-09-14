@@ -6,7 +6,8 @@ import axios from "axios";
 const Checkout = ({ totalHarga, cartItems, resetCart }) => {
   const [amountPaid, setAmountPaid] = useState("");
   const [kembalian, setKembalian] = useState(0);
-
+  const [isPaymentPopupOpen, setIsPaymentPopupOpen] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const pajak = totalHarga * 0.1; // Pajak 10%
   const totalPembayaran = totalHarga + pajak;
 
@@ -26,9 +27,12 @@ const Checkout = ({ totalHarga, cartItems, resetCart }) => {
     const transactionData = {
       date: new Date().toISOString(),
       totalHarga,
+      amountPaid,
+      selectedPaymentMethod,
       kembalian,
       products: cartItems,
     };
+    console.log(transactionData);
 
     // Kirim permintaan POST untuk menyimpan data transaksi
     axios
@@ -53,6 +57,19 @@ const Checkout = ({ totalHarga, cartItems, resetCart }) => {
     alert("Transaksi berhasil! Terima kasih atas pembeliannya.");
   };
 
+  const openPaymentPopup = () => {
+    setIsPaymentPopupOpen(true);
+  };
+
+  const closePaymentPopup = () => {
+    setIsPaymentPopupOpen(false);
+  };
+
+  const handlePaymentMethodSelect = (method) => {
+    setSelectedPaymentMethod(method);
+    closePaymentPopup();
+  };
+
   return (
     <div className="flex flex-col">
       <h2 className="text-xl font-semibold mb-2">Checkout</h2>
@@ -61,8 +78,45 @@ const Checkout = ({ totalHarga, cartItems, resetCart }) => {
           <p className="font-semibold">Total Harga: Rp {totalHarga.toLocaleString()}</p>
           <p className="text-gray-600">Pajak (10%): Rp {pajak.toLocaleString()}</p>
           <p className="font-semibold">Total Pembayaran: Rp {totalPembayaran.toLocaleString()}</p>
+          {selectedPaymentMethod && <p className="font-semibold">Metode Pembayaran: {selectedPaymentMethod}</p>}
         </div>
         <div className="mb-2">
+          <button className={`bg-blue-500 text-white px-4 py-2 rounded mt-4 ${selectedPaymentMethod ? "pointer-events-none opacity-70" : ""}`} onClick={openPaymentPopup}>
+            {selectedPaymentMethod ? `Metode Pembayaran: ${selectedPaymentMethod}` : "Pilih Metode Pembayaran"}
+          </button>
+          {selectedPaymentMethod && (
+            <button
+              className="bg-red-400 text-white px-4 py-2 rounded mt-4 ml-2"
+              onClick={() => {
+                setSelectedPaymentMethod("");
+                openPaymentPopup();
+              }}
+            >
+              Ubah
+            </button>
+          )}
+          {isPaymentPopupOpen && (
+            <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50" onClick={closePaymentPopup}>
+              <div className="bg-white p-4 rounded-lg shadow">
+                <h3 className="text-lg font-semibold mb-2">Pilih Metode Pembayaran</h3>
+                <button onClick={() => handlePaymentMethodSelect("Shoppe")} className="block w-full text-left py-2 px-4 mb-2 border rounded">
+                  Shope
+                </button>
+                <button onClick={() => handlePaymentMethodSelect("Dana")} className="block w-full text-left py-2 px-4 mb-2 border rounded">
+                  Dana
+                </button>
+                <button onClick={() => handlePaymentMethodSelect("Gopay")} className="block w-full text-left py-2 px-4 mb-2 border rounded">
+                  Gopay
+                </button>
+                <button onClick={() => handlePaymentMethodSelect("Cash")} className="block w-full text-left py-2 px-4 mb-2 border rounded">
+                  Cash
+                </button>
+                <button onClick={closePaymentPopup} className="bg-gray-300 text-gray-700 px-4 py-2 rounded-full mt-4">
+                  Batal
+                </button>
+              </div>
+            </div>
+          )}
           <label htmlFor="amountPaid" className="block font-semibold">
             Uang yang Dibayarkan
           </label>

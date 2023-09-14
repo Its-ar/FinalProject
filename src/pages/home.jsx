@@ -6,16 +6,18 @@ import Header from "../layouts/Header";
 import SideBar from "../layouts/SideBar";
 import axios from "axios";
 import { tambahProduct } from "../Store/ProductSlice";
-import { useDispatch } from "react-redux";
+import { tambahKeKeranjang, clearCart } from "../Store/ProductSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
   const [sideBar, setSideBar] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
   const [product, setProduct] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [search, setsearch] = useState(""); // Tambah state untuk input pencarian
   const dispatch = useDispatch();
 
-  const totalHarga = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  const totalHarga = useSelector((state) => state.product.cart.reduce((total, item) => total + item.price * item.quantity, 0));
+  const cart = useSelector((state) => state.product.cart);
 
   const getProduct = () => {
     axios
@@ -28,35 +30,14 @@ export default function Home() {
   };
 
   const handleAddToCart = (product) => {
-    const existingItem = cartItems.find((item) => item.id === product.id);
+    const existingItem = cart.find((item) => item.id === product.id);
 
-    if (existingItem) {
-      // dispatch(tambahProduct({ ...product, quantity: existingItem.quantity + 1 }));
-      const updatedCart = cartItems.map((item) => (item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item));
-      setCartItems(updatedCart);
-    } else {
-      setCartItems([...cartItems, { ...product, quantity: 1 }]);
-    }
     dispatch(tambahProduct(product));
-  };
-
-  const handleIncrement = (index) => {
-    const updatedCart = [...cartItems];
-    updatedCart[index].quantity++;
-    setCartItems(updatedCart);
-  };
-
-  const handleDecrement = (index) => {
-    const updatedCart = [...cartItems];
-    if (updatedCart[index].quantity > 1) {
-      updatedCart[index].quantity--;
-      setCartItems(updatedCart);
+    if (existingItem) {
+      dispatch(tambahKeKeranjang({ ...product, quantity: existingItem.quantity + 1 }));
+    } else {
+      dispatch(tambahKeKeranjang({ ...product, quantity: 1 }));
     }
-  };
-
-  const handleDelete = (index) => {
-    const updatedCart = cartItems.filter((_, i) => i !== index);
-    setCartItems(updatedCart);
   };
 
   const handleCategoryClick = (category) => {
@@ -64,7 +45,7 @@ export default function Home() {
   };
 
   const resetCart = () => {
-    setCartItems([]); // Reset the cartItems state to an empty array
+    dispatch(clearCart());
   };
 
   useEffect(() => {
@@ -80,7 +61,21 @@ export default function Home() {
           <h1 className="text-2xl font-bold mb-4 text-center">Cashier Point Of Sales</h1>
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-2/3 mr-4 flex-1 bg-white p-6 rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold mb-2">Order Produk</h2>
+              <div className="w-full flex justify-between m-2">
+                <h2 className="text-xl font-semibold mb-2">Order Produk</h2>
+                <div className="flex items-center w-full md:w-auto mt-2 md:mt-0">
+                  <input
+                    type="search"
+                    className="rounded p-2 h-8 w-full md:w-64 bg-blue-200"
+                    placeholder="Search Product..."
+                    value={search} // Hubungkan input dengan state search
+                    onChange={(e) => setsearch(e.target.value)} // Tangani perubahan nilai input dan perbarui state
+                  />
+                  <button className="rounded p-2 h-8 bg-blue-300 flex items-center ml-2">
+                    <i className="fa fa-search text-xl"></i>
+                  </button>
+                </div>
+              </div>
               <hr />
               <div>
                 <button className={`mr-4 ${selectedCategory === "all" ? "font-bold" : ""}`} onClick={() => handleCategoryClick("all")}>
@@ -95,9 +90,17 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 mt-4">
                 {product
-                  .filter((product) => selectedCategory === "all" || product.category === selectedCategory)
+                  .filter((product) => {
+                    // Filter produk berdasarkan kategori yang dipilih
+                    const categoryFilter = selectedCategory === "all" || product.category === selectedCategory;
+
+                    // Filter produk berdasarkan pencarian
+                    const searchFilter = product.name.toLowerCase().includes(search.toLowerCase());
+
+                    return categoryFilter && searchFilter;
+                  })
                   .map((product) => (
-                    <div key={product.id} className={`bg-white p-4 rounded-lg shadow ${cartItems.length === 0 ? "w-full" : ""}`}>
+                    <div key={product.id} className={`bg-white p-4 rounded-lg shadow ${cart.length === 0 ? "w-full" : ""}`}>
                       <div className="flex items-center justify-center bg-gray-100 rounded-xl px-2 py-2">
                         <img className="h-auto w-auto object-cover cursor-pointer hover:scale-110 transition-transform duration-500 ease-in-out" src={product.image} alt="Card Image" />
                       </div>
@@ -110,11 +113,10 @@ export default function Home() {
                   ))}
               </div>
             </div>
-
-            {cartItems.length > 0 && (
+            {cart.length > 0 && (
               <div className="w-full md:w-1/3 mt-4 md:mt-0 flex flex-col bg-white p-6 rounded-lg shadow-md">
-                <Cart cartItems={cartItems} onIncrement={handleIncrement} onDecrement={handleDecrement} onDelete={handleDelete} />
-                <Checkout totalHarga={totalHarga} cartItems={cartItems} resetCart={resetCart} />
+                <Cart />
+                <Checkout totalHarga={totalHarga} cartItems={cart} resetCart={resetCart} />
               </div>
             )}
           </div>
