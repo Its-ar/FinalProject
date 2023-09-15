@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-
-// ... other imports and component code ...
+import QRCode from "react-qr-code";
 
 const Checkout = ({ totalHarga, cartItems, resetCart }) => {
   const [amountPaid, setAmountPaid] = useState("");
@@ -10,10 +9,12 @@ const Checkout = ({ totalHarga, cartItems, resetCart }) => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const pajak = totalHarga * 0.1; // Pajak 10%
   const totalPembayaran = totalHarga + pajak;
+  const [isScanningQR, setIsScanningQR] = useState(false);
 
   const handleAmountPaidChange = (event) => {
     const paidAmount = event.target.value;
     setAmountPaid(paidAmount);
+    setIsScanningQR(false);
 
     if (!isNaN(paidAmount)) {
       const kembalianAmount = paidAmount - totalPembayaran;
@@ -27,12 +28,11 @@ const Checkout = ({ totalHarga, cartItems, resetCart }) => {
     const transactionData = {
       date: new Date().toISOString(),
       totalHarga,
-      amountPaid,
+      amountPaid: selectedPaymentMethod === "Cash" ? amountPaid : totalHarga, // Sesuaikan ini
       selectedPaymentMethod,
       kembalian,
       products: cartItems,
     };
-    console.log(transactionData);
 
     // Kirim permintaan POST untuk menyimpan data transaksi
     axios
@@ -68,6 +68,13 @@ const Checkout = ({ totalHarga, cartItems, resetCart }) => {
   const handlePaymentMethodSelect = (method) => {
     setSelectedPaymentMethod(method);
     closePaymentPopup();
+  };
+  const startQRScan = () => {
+    setIsScanningQR(true);
+  };
+
+  const stopQRScan = () => {
+    setIsScanningQR(false);
   };
 
   return (
@@ -117,10 +124,36 @@ const Checkout = ({ totalHarga, cartItems, resetCart }) => {
               </div>
             </div>
           )}
-          <label htmlFor="amountPaid" className="block font-semibold">
-            Uang yang Dibayarkan
-          </label>
-          <input type="number" id="amountPaid" value={amountPaid} onChange={handleAmountPaidChange} className="border rounded px-2 py-1 w-full" />
+          {selectedPaymentMethod && selectedPaymentMethod !== "Cash" && (
+            <div className="mb-2">
+              {isScanningQR ? (
+                <div>
+                  <p className="font-semibold">Pindai QR Code:</p>
+                  {selectedPaymentMethod === "Shoppe" && <QRCode value={`https://shopee.co.id/?total=${totalPembayaran}&orderID=12345`} size={160} />}
+                  {selectedPaymentMethod === "Dana" && <QRCode size={160} value="https://www.dana.id/" />}
+                  {selectedPaymentMethod === "Gopay" && <QRCode size={160} value="https://gopay.co.id/?utm_source=sem&utm_medium=text&utm_campaign=AG23.01H&utm_content=GoPayHomePage" />}
+                  <button className="bg-red-400 text-white px-4 py-2 rounded mt-4 ml-2" onClick={stopQRScan}>
+                    Hentikan Pemindaian
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <button className="bg-blue-500 text-white px-4 py-2 rounded mt-4" onClick={startQRScan}>
+                    Pindai QR Code
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {selectedPaymentMethod === "Cash" && (
+            <div className="mb-2">
+              <label htmlFor="amountPaid" className="block font-semibold">
+                Uang yang Dibayarkan
+              </label>
+              <input type="number" id="amountPaid" value={amountPaid} onChange={handleAmountPaidChange} className="border rounded px-2 py-1 w-full" />
+            </div>
+          )}
         </div>
         <div className="mb-2">
           <p className="font-semibold">Kembalian: Rp {kembalian.toLocaleString()}</p>

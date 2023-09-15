@@ -35,6 +35,7 @@ const productSlice = createSlice({
       } else if (itemToDecrement && itemToDecrement.quantity === 1) {
         // Jika quantity menjadi 0, hapus item dari keranjang
         state.cart = state.cart.filter((item) => item.id !== action.payload.id);
+        alert("Product berhasil di hapus");
         // console.log(itemToDecrement);
       }
     },

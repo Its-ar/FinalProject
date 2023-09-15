@@ -50,31 +50,31 @@ export default function ProductsCrud() {
           Add Product &nbsp;<i className="fa fa-plus"></i>
         </button>
         <table className="table-auto w-full border-collapse border border-slate-500 p-24 ">
-          <thead>
+          <thead className="bg-blue-400">
             <tr>
-              <th className="p-1 border border-slate-500">Product ID</th>
-              <th className="p-1 border border-slate-500">Product Name</th>
-              <th className="p-1 border border-slate-500">Catagory</th>
-              <th className="p-1 border border-slate-500">Price</th>
-              <th className="p-1 border border-slate-500">Images</th>
-              <th className="p-1 border border-slate-500">Action</th>
+              <th className="p-1 border border-slate-500 font-extrabold">Product ID</th>
+              <th className="p-1 border border-slate-500 font-extrabold">Product Name</th>
+              <th className="p-1 border border-slate-500 font-extrabold">Catagory</th>
+              <th className="p-1 border border-slate-500 font-extrabold">Price</th>
+              <th className="p-1 border border-slate-500 font-extrabold">Images</th>
+              <th className="p-1 border border-slate-500 font-extrabold">Action</th>
             </tr>
           </thead>
           <tbody>
             {product.map((product) => (
               <tr key={product.id}>
-                <td className="p-1 border border-slate-300">{product.id}</td>
-                <td className="p-1 border border-slate-300">{product.name}</td>
-                <td className="p-1 border border-slate-300">{product.category}</td>
-                <td className="p-1 border border-slate-300">{product.price}</td>
-                <td className="p-1 border border-slate-300">
+                <td className="p-1 border border-slate-400 font-semibold text-center">{product.id}</td>
+                <td className="p-1 border border-slate-400 font-semibold text-center">{product.name}</td>
+                <td className="p-1 border border-slate-400 font-semibold text-center">{product.category}</td>
+                <td className="p-1 border border-slate-400 font-semibold text-center">{product.price}</td>
+                <td className="p-1 border border-slate-400 font-semibold text-center">
                   <div className="flex justify-center">
                     <button className="bg-blue-400 border rounded-lg px-2 py-1 hover:bg-blue-700 transition">
                       <i className="fa fa-upload text-white"></i>
                     </button>
                   </div>
                 </td>
-                <td className="p-1 border border-slate-300 text-center">
+                <td className="p-1 border border-slate-400 font-semibold text-center">
                   <div className="flex justify-center gap-1">
                     <button onClick={() => handleOpenProduct(product.id)} className="bg-blue-400 border rounded-lg px-2 py-1 hover:bg-blue-700 transition">
                       <i className="fa fa-edit text-white"></i>

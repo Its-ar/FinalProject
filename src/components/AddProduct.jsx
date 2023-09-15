@@ -35,6 +35,7 @@ const AddProduct = ({ setIsFormOpen, id, getProducts, setProductIds }) => {
       else await axios.post("http://localhost:3000/product", data);
       console.log(data);
       setIsFormOpen(false);
+      setProductIds(0);
       getProducts();
     } catch (error) {
       alert(error.message);
