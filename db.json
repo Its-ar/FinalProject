@@ -1,4 +1,18 @@
 {
+  "users": [
+    {
+      "email": "test@mail.com",
+      "password": "$2a$10$1t6FHKG7HtO7JinCeC3TR.rIADLv99IzARswq8l.6sJZYQW132U4S",
+      "username": "user1",
+      "id": 1
+    },
+    {
+      "email": "prodemyGen15@gmail.com",
+      "password": "$2a$10$Mk8Ff327m9A4rHWJ7tz4PO1/7MJgugJwVgG8tQWi7Yy590THqPP9S",
+      "username": "Admin1",
+      "id": 2
+    }
+  ],
   "product": [
     {
       "id": 1,
