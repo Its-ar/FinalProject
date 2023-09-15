@@ -1,24 +1,31 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { resetAuthData } from "../Store/authSlice";
 
 export default function Header(props) {
   const { children } = props;
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [sideBar, setSideBar] = useState(false);
+  const dispatch = useDispatch();
+  const [showLogoutMenu, setShowLogoutMenu] = useState(false);
 
-  const handleLogin = () => {
-    // dispatch(resetData());
-    setIsLoggedIn(true);
-    navigate("/login");
-  };
+  const storedUser = JSON.parse(localStorage.getItem('user'));
 
   const handleLogout = () => {
-    
-    setIsLoggedIn(false);
-    navigate("/");
+    dispatch(resetAuthData());
+    navigate('/');
   };
-  // const [sideBar, setSideBar] = useState(false);
 
+  const handleToggleLogoutMenu = () => {
+    setShowLogoutMenu((prevShowLogoutMenu) => !prevShowLogoutMenu);
+  };
+  const isLoggedIn = useSelector((state) => state.auth.token !== '');
+  // const handleLogin = () => {
+  //   // dispatch(resetData());
+  //   setIsLoggedIn(true);
+  //   navigate("/login");
+  // };
   return (
     <div className="top-0 bg-blue-300 w-full h-16">
       <nav className=" px-4 py-2 flex flex-wrap items-center justify-between">
@@ -29,17 +36,29 @@ export default function Header(props) {
           </h1>
         </div>
         {isLoggedIn ? (
-          // If logged in, show "Logout" button
-          <h1 onClick={handleLogout} className="text-2xl font-bold cursor-pointer ml-4">
-            Logout
-          </h1>
+          <div className='relative'>
+            <div
+              onClick={handleToggleLogoutMenu}
+              className='px-4 py-1 rounded-md text-black hover:text-white transition duration-200 hover:bg-gray-800 duration-200 ease-in cursor-pointer'
+            >
+              {storedUser.username}
+            </div>
+            {showLogoutMenu && (
+              <div className='absolute top-8 right-0 bg-white shadow-md py-2 px-4 rounded-md'>
+                <div onClick={handleLogout} className='cursor-pointer'>
+                  Logout
+                </div>
+              </div>
+            )}
+          </div>
         ) : (
-          // If not logged in, show "Login" button
-          <h1 onClick={handleLogin} className="text-2xl font-bold cursor-pointer ml-4">
-            Login
-          </h1>
+          <div
+            onClick={()=>navigate("/login")}
+            className='px-4 py-1 rounded-md text-black hover:text-white transition duration-200 hover:bg-gray-800 duration-200 ease-in'
+          >
+            Masuk
+          </div>
         )}
-        {/* <h1 onClick={() => navigate("/login")} className="text-2xl font-bold cursor-pointer ml-4">Login</h1> */}
       </nav>
     </div>
   );

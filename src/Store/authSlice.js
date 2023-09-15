@@ -43,6 +43,8 @@ const authSlice = createSlice({
         },
 
         resetAuthData() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
             return { ...initialState}
         }
     }

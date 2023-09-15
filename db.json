@@ -308,6 +308,22 @@
         }
       ],
       "id": 9
+    },
+    {
+      "date": "2023-09-15T13:25:45.279Z",
+      "totalHarga": 20000,
+      "kembalian": 0,
+      "products": [
+        {
+          "id": 2,
+          "name": "Cappucino",
+          "image": "./image/cappucino.jpg",
+          "price": 20000,
+          "category": "Coffe",
+          "quantity": 1
+        }
+      ],
+      "id": 10
     }
   ]
 }
