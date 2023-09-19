@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FiEye } from "react-icons/fi";
+import jsPDF from "jspdf";
 
 export default function TransactionHistory() {
   const [transactions, setTransactions] = useState([]);
@@ -43,13 +44,18 @@ export default function TransactionHistory() {
     setSelectedProducts([]);
     setIsModalOpen(false);
   };
+  
 
   return (
     <>
       <section className="px-4 w-full">
-        <h2 className="text-2xl font-montserrat font-bold border-b-2 border-blue-700 mt-2 mb-5">
-          Recent Orders <i className="fa fa-cart-arrow-down"></i>
-        </h2>
+        <div className="flex justify-between">
+          <h2 className="text-2xl font-montserrat font-bold border-b-2 border-blue-700 mt-2 mb-5">
+            Recent Orders <i className="fa fa-cart-arrow-down"></i>
+          </h2>
+        </div>
+        
+
         <div className="flex justify-center">
           <div className="py-2 w-4/5 flex justify-center">
             <table className="table-auto w-full border-collapse border border-slate-500 p-24">

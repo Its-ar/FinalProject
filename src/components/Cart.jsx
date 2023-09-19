@@ -18,6 +18,7 @@ const Cart = () => {
     dispatch(hapusDariKeranjang(product));
   };
 
+
   return (
     <div className="mb-4 flex flex-col">
       <h2 className="text-xl font-semibold mb-2">Cart</h2>

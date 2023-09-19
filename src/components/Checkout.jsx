@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import QRCode from "react-qr-code";
 
+
 const Checkout = ({ totalHarga, cartItems, resetCart }) => {
   const [amountPaid, setAmountPaid] = useState("");
   const [kembalian, setKembalian] = useState(0);
@@ -40,6 +41,7 @@ const Checkout = ({ totalHarga, cartItems, resetCart }) => {
       .then((response) => {
         // Handle respon berhasil di sini, jika diperlukan
         console.log("Transaksi berhasil disimpan:", response.data);
+        
 
         // Setel ulang data keranjang dan checkout
         setAmountPaid("");
@@ -179,6 +181,7 @@ const Checkout = ({ totalHarga, cartItems, resetCart }) => {
           Bayar
         </button>
       </div>
+      
     </div>
   );
 };
