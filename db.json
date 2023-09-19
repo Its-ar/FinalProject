@@ -59,7 +59,7 @@
     },
     {
       "id": 8,
-      "name": "Lemom Tea",
+      "name": "Lemon Tea",
       "image": "./image/lemon tea.jpg",
       "price": 15000,
       "category": "Non Coffe"
@@ -69,24 +69,24 @@
       "name": "Croissant",
       "image": "./image/Croissant.jpg",
       "price": 30000,
-      "category": "Makanan"
+      "category": "Food"
     },
     {
       "id": 10,
       "name": "Brownies",
       "image": "./image/Brownies.jpg",
       "price": 25000,
-      "category": "Makanan"
+      "category": "Food"
     },
     {
-      "category": "cemilan",
+      "category": "Food",
       "price": 6000,
       "name": "Onde Onde",
       "image": "https://cdn.yummy.co.id/content-images/images/20221125/njNNf0EA3nrJxtQTkEmwEyYp2gPEzFMC-31363639333537323734d41d8cd98f00b204e9800998ecf8427e.jpg?x-oss-process=image/format,webp",
       "id": 11
     },
     {
-      "category": "Minuman",
+      "category": "Non Coffe",
       "price": 4000,
       "name": "Es Mama Cuekl",
       "image": "https://media-cdn.yummyadvisor.com/store/9ab59f51-ad0c-4126-b192-1f0be1414bf5.jpeg",
@@ -140,7 +140,7 @@
           "name": "Croissant",
           "image": "./image/Croissant.jpg",
           "price": 30000,
-          "category": "Makanan",
+          "category": "Food",
           "quantity": 1
         },
         {

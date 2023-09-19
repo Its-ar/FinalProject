@@ -88,7 +88,7 @@ export default function Home() {
                     </button>
                   ))}
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 mt-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 mt-4">
                 {product
                   .filter((product) => {
                     // Filter produk berdasarkan kategori yang dipilih
@@ -102,10 +102,13 @@ export default function Home() {
                   .map((product) => (
                     <div key={product.id} className={`bg-white p-4 rounded-lg shadow ${cart.length === 0 ? "w-full" : ""}`}>
                       <div className="flex items-center justify-center bg-gray-100 rounded-xl px-2 py-2">
-                        <img className="h-auto w-auto object-cover cursor-pointer hover:scale-110 transition-transform duration-500 ease-in-out" src={product.image} alt="Card Image" />
+                        <img className="h-auto w-auto object-cover aspect-square cursor-pointer hover:scale-110 transition-transform duration-500 ease-in-out" src={product.image} alt="Card Image" />
                       </div>
-                      <p className="font-semibold">{product.name}</p>
-                      <p className="text-gray-600">Rp {product.price.toLocaleString()}</p>
+                      <div className="flex flex-col justify-between md:flex-row"> 
+                        <p className="font-semibold">{product.name}</p>
+                        <p className="text-gray-600">Rp {product.price.toLocaleString()}</p>
+                      </div>
+                      
                       <button className="bg-blue-500 text-white px-2 py-1 rounded-md mt-2" onClick={() => handleAddToCart(product)}>
                         Add to Cart
                       </button>
